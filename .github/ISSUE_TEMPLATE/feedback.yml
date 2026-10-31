@@ -2,6 +2,11 @@ name: 💡 의견 · 기능 제안 · Feedback / feature idea
 description: 사용 소감이나 있었으면 하는 기능을 알려 주세요.
 labels: [feedback]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ 이슈는 누구나 볼 수 있습니다. 개인정보나 공개되면 안 되는 자료는 올리지 마세요.
+        Issues are public: please do not post personal information or private material.
   - type: textarea
     id: feedback
     attributes:

@@ -7,11 +7,14 @@ body:
       value: |
         제보해 주셔서 감사합니다! 아래 내용을 채워 주시면 빠르게 확인할 수 있습니다.
         Thanks for the report! The details below help a lot.
+
+        ⚠️ 이슈는 누구나 볼 수 있습니다. 이메일·전화번호 같은 개인정보, 클라이언트·프로젝트 이름, 공개되면 안 되는 영상은 올리지 마세요. 스크린샷과 로그의 파일 경로에 보이는 사용자 이름은 가려 주세요.
+        Issues are public: please do not post personal information, client or project names, or unreleased video. Crop screenshots and hide your user name in file paths.
   - type: input
     id: version
     attributes:
       label: SMPTE Display 버전 · Version
-      placeholder: Beta 0.2
+      placeholder: "1.0"
     validations:
       required: true
   - type: input

@@ -1,11 +1,11 @@
 <div align="center">
 
-# SMPTE Display for Ableton Live
+# SMPTE Display
 
-**A Max for Live device that shows SMPTE timecode in a floating window over the Arrangement View — type a timecode to jump straight there.**
+**A Max for Live device for use with Ableton Live 12** that shows SMPTE timecode in a floating window over the Arrangement View — type a timecode to jump straight there.
 
-[![Version](https://img.shields.io/badge/version-Beta%200.4-orange)](https://github.com/emile-lab/M4L-SMPTE-Display-For-Ableton-Live/releases/latest)
-[![Ableton Live](https://img.shields.io/badge/Ableton%20Live-12%20%2B%20Max%20for%20Live-black)](https://www.ableton.com/live/max-for-live/)
+[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+[![Requires Ableton Live 12 + Max for Live](https://img.shields.io/badge/requires-Ableton%20Live%2012%20%2B%20Max%20for%20Live-black)](https://www.ableton.com/live/max-for-live/)
 [![macOS](https://img.shields.io/badge/macOS-11%2B-lightgrey)](#requirements)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)](LICENSE)
 
@@ -13,12 +13,14 @@
 
 <img src="docs/images/screenshot.png" alt="SMPTE Display floating window and device panel" width="760">
 
-### [⬇️ Download Beta 0.4](https://github.com/emile-lab/M4L-SMPTE-Display-For-Ableton-Live/releases/latest)
+### [⬇️ Download 1.0](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+
+<sub>By downloading or using SMPTE Display you agree to the [LICENSE](LICENSE).</sub>
 
 </div>
 
 > [!NOTE]
-> **This is a beta.** Bug reports and feedback are welcome in [Issues](https://github.com/emile-lab/M4L-SMPTE-Display-For-Ableton-Live/issues/new/choose).
+> Bug reports and feedback are welcome in [Issues](https://github.com/emile-lab/SMPTE-Display/issues/new/choose). The device panel shows the version at the bottom (`SMPTE Display 1.0`).
 
 ---
 
@@ -30,7 +32,7 @@
 | ⌨️ **Locate by timecode** | Click the window, type `01:23:45:12`, press **Enter** to jump. **Space** jumps and starts playback. |
 | 🎬 **Video FPS detection** | Uses the frame rate of the video clip (MOV / MP4 / M4V) in your Arrangement. |
 | 🔎 **Burned-in timecode (BITC) reading** | Reads the timecode printed in the video picture, sets the Offset and FPS for you, and shows `sync OK` while playing. Follows the on-screen timecode **even when it runs at another rate than the file** (e.g. 24 fps burn-in in a 30 fps file). *(macOS)* |
-| 📤 **Export timecode** | Writes the timecode (BWF timestamp) into WAV files exported from Live, so Pro Tools, Premiere, Resolve, Nuendo etc. place them at the picture's timecode. Your Live Set is not touched. |
+| 📤 **Export timecode** | Writes a standard BWF timestamp (EBU Tech 3285) into WAV files exported from Live, so editors and DAWs that spot files to their original timestamp place them at the picture's timecode. Your Live Set is not touched. |
 | 🎯 **Frame accurate** | Even when you stop or click exactly on a frame boundary, the display shows the same frame as Live's video window. The playhead is never moved, so your clip selection stays put. |
 | 📈 **Tempo automation aware** | Displays and locates by real elapsed time, even across tempo ramps. |
 
@@ -48,13 +50,13 @@ Frame rates: 23.976 · 24 · 25 · 29.97 (NDF / DF) · 30 · 50 · 59.94 (NDF / 
 ## Install (3 steps)
 
 **1. Download and unzip.**
-Get `SMPTE_Display_Beta_0.4.zip` from [Releases](https://github.com/emile-lab/M4L-SMPTE-Display-For-Ableton-Live/releases/latest) and unzip it.
+Get `SMPTE_Display_1.0.zip` from [Releases](https://github.com/emile-lab/SMPTE-Display/releases/latest) and unzip it.
 
 **2. Remove the macOS quarantine flag.** *(needed for burned-in timecode reading)*
 macOS quarantines downloaded files, which stops the timecode reader (`bitc_reader`) from running. Open **Terminal** and run the command below, adjusting the path to where you unzipped it:
 
 ```bash
-xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_Beta_0.4
+xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 ```
 
 **3. Copy to your User Library and add it to a track.**
@@ -67,7 +69,7 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_Beta_0.4
 > `SMPTE_Display.amxd`, the five `.js` files and `bitc_reader` **must stay in the same folder**. Moving the `.amxd` on its own will not work.
 
 > [!TIP]
-> **Updating from an earlier version (Beta 0.2, DEMO):** replace the old `SMPTE_Display` folder, then **delete the device from your Set and drag it in again**. Instances already in a Set may keep running the old version.
+> **Updating from an earlier version (Beta):** replace the old `SMPTE_Display` folder, then **delete the device from your Set and drag it in again**. Instances already in a Set may keep running the old version.
 
 ## Quick start
 
@@ -112,35 +114,47 @@ If the video picture has a timecode burned in, the device reads eleven frames an
 
 | Info line | Meaning |
 |---|---|
-| `BITC 00:59:56:00 ok 11/11` | Read successfully; Offset applied. |
-| `auto 24 fps (burn-in, video 30)` | The picture counts 24 fps, the file is 30 fps; the display follows the picture. |
+| `BITC 00:59:56:00 ok` | Read successfully; Offset applied. |
+| `auto 24 fps (file 30)` | The picture counts 24 fps, the file is 30 fps; the display follows the picture. |
 | `BITC mismatch 8/11` | Readings disagree; nothing applied. |
-| `BITC 24 fps != 30 fps` | You chose an FPS that differs from the burn-in. Set FPS to `Auto` to follow the picture. |
+| `BITC 24 fps != 30 fps` | You chose an FPS that differs from the burn-in. Set FPS to `Auto (video)` and it follows the picture at once. |
+| `BITC error: reader blocked (xattr)` | macOS blocked the timecode reader (`bitc_reader`). Run the `xattr` command in [Troubleshooting](#troubleshooting). |
 | `sync OK` / `sync +2 fr` | Sync status during playback (checked about every 5 s). |
 | `clip off frame grid` | The video clip sits between frame boundaries. Turn on snap and align it to the grid. |
 
+When you reopen a saved Set, **the saved Offset is kept**, so a value you adjusted by hand survives. Press **Rescan** to apply the burn-in value instead.
+
 ## Export timecode (BWF timestamp)
 
-WAV files exported by Live carry no timecode, so editors and other DAWs put them at `00:00:00:00`. **Stamp WAV…** writes the **timecode of the Render Start** into the exported files as a BWF timestamp (`bext`, `iXML`). Spot them to their original timestamp in Pro Tools, Premiere Pro, DaVinci Resolve, Nuendo/Cubase or Logic and they land at the picture's timecode.
+WAV files exported by Live carry no timecode, so editors and other DAWs put them at `00:00:00:00`. **Stamp WAV…** writes the **timecode of the Render Start** into the exported files as a standard BWF timestamp (EBU Tech 3285 `bext`, `iXML`). Editors and DAWs that read it place the files at the picture's timecode when you spot them to their original timestamp.
 
 1. Export as usual with **Export Audio/Video**.
-2. Press **Stamp WAV…** on the device and pick the exported WAV. For *All Individual Tracks* exports, pick any one file — the other files of the same export are stamped too.
-3. The status line shows the result, e.g. `TC 01:04:23:10 stamped: 5 WAVs (video clip)`.
+2. Right after the export, before you move the start marker, press **Stamp WAV…** on the device and pick the exported WAV. For *All Individual Tracks* exports, pick any one file and the files exported with it are stamped too.
+3. The status line shows the result, e.g. `TC 01:04:23:10 stamped: 5 WAVs (video clip)`. The names of the stamped files go to the Max Console.
 
 - **Your Live Set is not changed** — clips, automation and track sync stay exactly as they are, and the audio data is not altered by a single byte. Only timecode information is added to the files.
-- The timestamp is **sample-accurate.** When the Offset came from the burned-in timecode, it is computed from the video's actual position, even for a clip placed between frame lines.
-- **Finding the Render Start:** Live does not tell devices the export range, so the device recognises it by the file's length. If the length equals the **video clip, the loop brace, a pair of locators or the whole Set**, that range's start is used; otherwise the **start marker** (a time selection moves it to the selection start). The status line says which one was used.
+- The timestamp is **sample-accurate**: it is the first sample inside the labelled frame. When the Offset came from the burned-in timecode, it is computed from the video's actual position, even for a clip placed between frame lines.
+- **Finding the Render Start:** Live does not tell devices the export range.
+  - A time selection moves the start marker to its start, so the **start marker** is used.
+  - An export whose length equals the whole Set starts at **0**.
+  - If the length also fits the video clip, the loop brace or a pair of locators, the status line says `length also fits …`.
+  - The brackets on the status line say which one was used.
 - If the result is not what you expected, click the Render Start position in the Arrangement to put the start marker there and press **Stamp WAV…** again. Stamping again replaces the previous value.
+- **Files stamped together** are WAVs in the same folder with the same length and sample rate, saved within one minute of the picked file. They must also be unstamped or carry the same stamp as the picked file. A file from another export that already has a different timecode is never changed.
+- Files on external drives work. Read-only files are not changed.
+- The file is rewritten, so Finder tags and comments on it are not kept.
+- Checked with ffprobe, MediaInfo and BWF MetaEdit (EBU Tech 3285 conformance): exact values at 44.1–96 kHz and eight frame rates.
 - WAV only (AIFF / FLAC / MP3 have no standard timestamp). RF64 files over 4 GB are not supported.
 
 ## Good to know
 
-- **SMPTE here is elapsed time, not bars and beats.** Changing the tempo changes the timecode at a given bar — which is what you want for picture sync.
+- **SMPTE timecode here is elapsed time, not bars and beats.** Changing the tempo changes the timecode at a given bar — which is what you want for picture sync.
 - The floating window shows **only in the Arrangement View** and hides in the Session View. It does not move with Live's main window.
 - **Locating past the end of the Set** creates a MIDI track called `SMPTE extend` with a short empty clip, because Live cannot move beyond the Set's end. You can undo it or delete it.
 - The device never moves the playhead on its own — only when you type a timecode to locate. Your clip selection in the Arrangement is kept.
-- If playback stops just before the end of a frame, Live's video window can occasionally show the next frame (one frame ahead of the display). That is Live's video window and the device cannot correct it.
+- If playback stops within about the last 15 ms of a frame, Live's video window can show the next frame (one frame ahead of the display). That is Live's video window and the device cannot correct it.
 - After typing in the floating window it keeps keyboard focus. Click Live's window once to use Live shortcuts again.
+- The device makes no network connections and collects no personal data. Video and WAV files are read and written only on your computer.
 
 ## Troubleshooting
 
@@ -155,9 +169,14 @@ WAV files exported by Live carry no timecode, so editors and other DAWs put them
 <details>
 <summary><b>Burned-in timecode isn't detected / <code>BITC error</code></b></summary>
 
-- Make sure you ran the `xattr` command from [step 2](#install-3-steps) — this is the most common cause. Press **Rescan** afterwards.
-- Use MOV / MP4 / M4V video.
-- Press **Rescan**, or select the file with **Choose…**.
+- `BITC error: reader blocked (xattr)`: macOS blocked the downloaded reader. This is the most common cause. If you already copied the folder into your User Library, run the command on the **installed** folder:
+  ```bash
+  xattr -dr com.apple.quarantine "$HOME/Music/Ableton/User Library/Presets/Audio Effects/Max Audio Effect/SMPTE_Display"
+  ```
+  (Adjust the path if your User Library is elsewhere.) Then press **Rescan**.
+- `BITC error: reader missing`: `bitc_reader` is not in the same folder as `SMPTE_Display.amxd`. Copy the whole folder again.
+- `BITC error: reader not executable`: unzip again and copy the whole folder.
+- Use MOV / MP4 / M4V video. Burned-in timecode is read from a video clip in the Arrangement only (a file picked with **Choose…** sets the FPS only).
 - Warped video clips are not compared. Turn Warp off on the clip.
 - If it says `BITC 24 fps != 30 fps`, set FPS to `Auto (video)`.
 </details>
@@ -165,7 +184,7 @@ WAV files exported by Live carry no timecode, so editors and other DAWs put them
 <details>
 <summary><b><code>TC stamp failed</code></b></summary>
 
-- `length fits video clip and loop …`: several ranges have the file's length. Click the Render Start position to put the start marker there and press again.
+- `file is read-only`: give the file write permission (Finder > Get Info) and press again.
 - `render start unknown`: a position under tempo automation that has not been played yet. Play from the Render Start once, then press again.
 - `RF64 WAV (over 4 GB) is not supported`: export the tracks separately.
 - A file that is open in another application may not be writable.
@@ -180,6 +199,12 @@ WAV files exported by Live carry no timecode, so editors and other DAWs put them
 </details>
 
 <details>
+<summary><b>The status line says <code>offset invalid</code></b></summary>
+
+The Offset's frame value is beyond the selected FPS (e.g. frame 30 at 24 fps). Typed timecodes are refused until it is fixed. Correct the last (frame) field of the Offset.
+</details>
+
+<details>
 <summary><b>I updated, but it still behaves like the old version</b></summary>
 
 Devices already in a Set keep the old version. Delete the device from the track and drag it in again from the browser.
@@ -191,7 +216,7 @@ Devices already in a Set keep the old version. Delete the device from the track 
 The position is past the end of the Set and the Set could not be extended automatically. Put any clip in the Arrangement after the position you want, then try again.
 </details>
 
-Still stuck? Please file a [bug report](https://github.com/emile-lab/M4L-SMPTE-Display-For-Ableton-Live/issues/new?template=bug_report.yml).
+Still stuck? Please file a [bug report](https://github.com/emile-lab/SMPTE-Display/issues/new?template=bug_report.yml).
 
 ## Changelog
 
@@ -202,11 +227,12 @@ See [CHANGELOG.md](CHANGELOG.md).
 **Copyright © 2026 Jeon Min Gi (전민기). All rights reserved.**
 
 - ✅ Free to use in personal **and commercial** music / picture work.
+- ✅ You may share a Live Set that uses the device with collaborators on the same production, including the unmodified device copy saved in the project, for use on that production only. For other work they should download their own copy here.
 - ❌ **No redistribution, re-uploading, selling, or distributing modified versions** of the device files.
 - 🔗 To recommend it, please share **a link to this repository** instead of the files.
 
-Full terms: [LICENSE](LICENSE).
+By downloading or using the device you agree to the [LICENSE](LICENSE) (English and Korean, equally authoritative). The license covers the version it ships with.
 
 ---
 
-<sub>Ableton, Ableton Live and Max for Live are trademarks of Ableton AG. Max is a trademark of Cycling '74. This project is not affiliated with Ableton or Cycling '74.</sub>
+<sub>Ableton, Ableton Live, Live and Max for Live are trademarks of Ableton AG. Max is a trademark of Cycling '74. SMPTE is a trademark of the Society of Motion Picture and Television Engineers. macOS is a trademark of Apple Inc. Other product names are trademarks of their respective owners. SMPTE Display is an independent product by Jeon Min Gi and is not affiliated with, sponsored, endorsed or approved by Ableton AG, Cycling '74, SMPTE or Apple Inc.</sub>
