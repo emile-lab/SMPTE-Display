@@ -4,7 +4,7 @@
 
 **A Max for Live device for use with Ableton Live 12** that shows SMPTE timecode in a floating window over the Arrangement View — type a timecode to jump straight there.
 
-[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+[![Version](https://img.shields.io/badge/version-1.1-blue)](https://github.com/emile-lab/SMPTE-Display/releases/latest)
 [![Requires Ableton Live 12 + Max for Live](https://img.shields.io/badge/requires-Ableton%20Live%2012%20%2B%20Max%20for%20Live-black)](https://www.ableton.com/live/max-for-live/)
 [![macOS](https://img.shields.io/badge/macOS-11%2B-lightgrey)](#requirements)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)](LICENSE)
@@ -13,14 +13,14 @@
 
 <img src="docs/images/screenshot.png" alt="SMPTE Display floating window and device panel" width="760">
 
-### [⬇️ Download 1.0](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+### [⬇️ Download 1.1](https://github.com/emile-lab/SMPTE-Display/releases/latest)
 
 <sub>By downloading or using SMPTE Display you agree to the [LICENSE](LICENSE).</sub>
 
 </div>
 
 > [!NOTE]
-> Bug reports and feedback are welcome in [Issues](https://github.com/emile-lab/SMPTE-Display/issues/new/choose). The device panel shows the version at the bottom (`SMPTE Display 1.0`).
+> Bug reports and feedback are welcome in [Issues](https://github.com/emile-lab/SMPTE-Display/issues/new/choose). The device panel shows the version at the bottom (`SMPTE Display 1.1`).
 
 ---
 
@@ -28,10 +28,11 @@
 
 | Feature | Description |
 |---|---|
-| 🕒 **Floating timecode window** | Shows the current position as `HH:MM:SS:FF` in a small window above Live. Sizes S / M / L / XL. |
+| 🕒 **Floating timecode window** | Shows the current position as `HH:MM:SS:FF` in a small window above Live. Pick which lines to show (bars, tempo, FPS, audio, status) and drag the window corner to resize it (50–400 %). |
+| 📍 **Start TC on any bar** | The locator whose name starts with `SMPTE` is where the Start TC (e.g. `01:00:00:00`) sits. Click a bar and press **Mark** to create it; drag the locator and the timecode follows. The bars before it run as pre-roll (`00:59:52:00` …). |
 | ⌨️ **Locate by timecode** | Click the window, type `01:23:45:12`, press **Enter** to jump. **Space** jumps and starts playback. |
 | 🎬 **Video FPS detection** | Uses the frame rate of the video clip (MOV / MP4 / M4V) in your Arrangement. |
-| 🔎 **Burned-in timecode (BITC) reading** | Reads the timecode printed in the video picture, sets the Offset and FPS for you, and shows `sync OK` while playing. Follows the on-screen timecode **even when it runs at another rate than the file** (e.g. 24 fps burn-in in a 30 fps file). *(macOS)* |
+| 🔎 **Burned-in timecode (BITC) reading** | Reads the timecode printed in the video picture, sets the Start TC and FPS for you, and shows `sync OK` while playing. Follows the on-screen timecode **even when it runs at another rate than the file** (e.g. 24 fps burn-in in a 30 fps file). *(macOS)* |
 | 📤 **Export timecode** | Writes a standard BWF timestamp (EBU Tech 3285) into WAV files exported from Live, so editors and DAWs that spot files to their original timestamp place them at the picture's timecode. Your Live Set is not touched. |
 | 🎯 **Frame accurate** | Even when you stop or click exactly on a frame boundary, the display shows the same frame as Live's video window. The playhead is never moved, so your clip selection stays put. |
 | 📈 **Tempo automation aware** | Displays and locates by real elapsed time, even across tempo ramps. |
@@ -50,13 +51,13 @@ Frame rates: 23.976 · 24 · 25 · 29.97 (NDF / DF) · 30 · 50 · 59.94 (NDF / 
 ## Install (3 steps)
 
 **1. Download and unzip.**
-Get `SMPTE_Display_1.0.zip` from [Releases](https://github.com/emile-lab/SMPTE-Display/releases/latest) and unzip it.
+Get `SMPTE_Display_1.1.zip` from [Releases](https://github.com/emile-lab/SMPTE-Display/releases/latest) and unzip it.
 
 **2. Remove the macOS quarantine flag.** *(needed for burned-in timecode reading)*
 macOS quarantines downloaded files, which stops the timecode reader (`bitc_reader`) from running. Open **Terminal** and run the command below, adjusting the path to where you unzipped it:
 
 ```bash
-xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
+xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.1
 ```
 
 **3. Copy to your User Library and add it to a track.**
@@ -96,13 +97,27 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 | **Space** (not typing) | Play / stop |
 | **Esc** | Cancel input (also cancels after 10 s without typing). |
 
+### Start TC on a chosen bar
+
+To put `01:00:00:00` on bar 5 and use the bars before it as pre-roll, as in film work:
+
+1. Set **FPS** and **Start** (e.g. `01:00:00:00`).
+2. Stop playback, click bar 5 in the Arrangement and press **Mark**. A locator named `SMPTE 01:00:00:00` appears there.
+3. Bar 5 now reads `01:00:00:00` and bar 1 reads that much earlier (`00:59:52:00` at 120 BPM in 4/4). Drag the locator and the timecode follows; Undo works as usual.
+
+- You can also make the locator yourself, with any name that starts with `SMPTE` (e.g. `SMPTE reel 2`). With several, the earliest one is used.
+- When you change Start, a name the device gave (`SMPTE 01:00:00:00`) follows it; a name you typed is kept. The device never deletes or moves a locator.
+- Without such a locator the song start is the reference (like the Offset in 1.0).
+- With tempo automation, playback has to pass the locator once before its time is exact; until then the status line shows `~ start (play past the SMPTE locator)`.
+
 ### Device controls
 
 | Control | Description |
 |---|---|
 | **FPS** | Timecode frame rate. `Auto (video)` follows the burned-in timecode, else the video file. |
-| **Offset** | Timecode at timeline zero (e.g. `01:00:00:00`). Set automatically when burned-in timecode is found. |
-| **Float** / **Scale** | Floating window on/off / size (S · M · L · XL) |
+| **Start** / **Mark** | Start TC: the timecode at the `SMPTE` locator, or at the song start without one (e.g. `01:00:00:00`). **Mark** creates that locator at the bar you clicked. Set automatically when burned-in timecode is found. |
+| **Float** / **Scale** | Floating window on/off / size 50–400 %. Drag the number or the window corner. |
+| **Show** | Lines in the floating window: **Bars**, **Tempo** (tempo and time signature), **FPS**, **Audio**, **Status**. All off leaves the timecode alone. |
 | **Clock** | How time is computed. Leave on `Auto` in most cases. |
 | **Bit** | Bit-depth label for display only — Live does not expose the real value. |
 | **Choose…** / **Rescan** | Pick a video file yourself / search the Arrangement for video again. |
@@ -110,11 +125,11 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 
 ## Burned-in timecode (BITC) — macOS
 
-If the video picture has a timecode burned in, the device reads eleven frames and **sets the Offset automatically.** The on-screen timecode wins when it runs at another rate than the file (e.g. a 24 fps edit exported as 30 fps, repeating every 5th frame): FPS `Auto` uses the on-screen rate, and inside the video clip the display shows **exactly what the picture shows, repeated frames included.** Typing a timecode goes to the first frame that shows it.
+If the video picture has a timecode burned in, the device reads eleven frames and **sets the Start TC automatically.** With an `SMPTE` locator, the burned-in timecode at that locator becomes the Start TC. The on-screen timecode wins when it runs at another rate than the file (e.g. a 24 fps edit exported as 30 fps, repeating every 5th frame): FPS `Auto` uses the on-screen rate, and inside the video clip the display shows **exactly what the picture shows, repeated frames included.** Typing a timecode goes to the first frame that shows it.
 
 | Info line | Meaning |
 |---|---|
-| `BITC 00:59:56:00 ok` | Read successfully; Offset applied. |
+| `BITC 00:59:56:00 ok` | Read successfully; Start TC applied. |
 | `auto 24 fps (file 30)` | The picture counts 24 fps, the file is 30 fps; the display follows the picture. |
 | `BITC mismatch 8/11` | Readings disagree; nothing applied. |
 | `BITC 24 fps != 30 fps` | You chose an FPS that differs from the burn-in. Set FPS to `Auto (video)` and it follows the picture at once. |
@@ -122,7 +137,7 @@ If the video picture has a timecode burned in, the device reads eleven frames an
 | `sync OK` / `sync +2 fr` | Sync status during playback (checked about every 5 s). |
 | `clip off frame grid` | The video clip sits between frame boundaries. Turn on snap and align it to the grid. |
 
-When you reopen a saved Set, **the saved Offset is kept**, so a value you adjusted by hand survives. Press **Rescan** to apply the burn-in value instead.
+When you reopen a saved Set, **the saved Start TC is kept**, so a value you adjusted by hand survives. Press **Rescan** to apply the burn-in value instead.
 
 ## Export timecode (BWF timestamp)
 
@@ -133,7 +148,7 @@ WAV files exported by Live carry no timecode, so editors and other DAWs put them
 3. The status line shows the result, e.g. `TC 01:04:23:10 stamped: 5 WAVs (video clip)`. The names of the stamped files go to the Max Console.
 
 - **Your Live Set is not changed** — clips, automation and track sync stay exactly as they are, and the audio data is not altered by a single byte. Only timecode information is added to the files.
-- The timestamp is **sample-accurate**: it is the first sample inside the labelled frame. When the Offset came from the burned-in timecode, it is computed from the video's actual position, even for a clip placed between frame lines.
+- The timestamp is **sample-accurate**: it is the first sample inside the labelled frame. When the Start TC came from the burned-in timecode, it is computed from the video's actual position, even for a clip placed between frame lines.
 - **Finding the Render Start:** Live does not tell devices the export range.
   - A time selection moves the start marker to its start, so the **start marker** is used.
   - An export whose length equals the whole Set starts at **0**.
@@ -199,9 +214,9 @@ WAV files exported by Live carry no timecode, so editors and other DAWs put them
 </details>
 
 <details>
-<summary><b>The status line says <code>offset invalid</code></b></summary>
+<summary><b>The status line says <code>start TC invalid</code></b></summary>
 
-The Offset's frame value is beyond the selected FPS (e.g. frame 30 at 24 fps). Typed timecodes are refused until it is fixed. Correct the last (frame) field of the Offset.
+The Start frame value is beyond the selected FPS (e.g. frame 30 at 24 fps). Typed timecodes and Mark are refused until it is fixed. Correct the last (frame) field of Start.
 </details>
 
 <details>

@@ -1,5 +1,53 @@
 # 변경 내역 · Changelog
 
+## 1.1 — 2026-11-17
+
+Start TC를 원하는 마디에 둘 수 있고, 플로팅 창에 띄울 정보와 크기를 고를 수 있습니다.
+
+### 새 기능
+- **원하는 마디에 Start TC.** 이름이 `SMPTE`로 시작하는 Arrangement 로케이터 자리가 Start TC가 됩니다(1.0의 Offset). 재생을 멈추고 마디를 클릭한 뒤 **Mark**를 누르면 그 자리에 `SMPTE 01:00:00:00` 로케이터가 생깁니다. 로케이터를 끌어 옮기면 기준도 따라가고, Live의 Undo로 되돌릴 수 있습니다. 로케이터가 없으면 1.0처럼 노래 시작이 기준입니다.
+- Start를 바꾸면 디바이스가 붙인 로케이터 이름도 따라 바뀝니다. 직접 붙인 이름(예: `SMPTE reel 2`)은 그대로 둡니다. 디바이스는 로케이터를 지우거나 옮기지 않습니다.
+- 번인 타임코드: 로케이터가 있으면 그 자리의 번인 타임코드가 Start TC가 되고, 번인 값을 쓰는 동안 로케이터를 옮기면 따라갑니다.
+- 템포 오토메이션이 있는 곡에서도 로케이터에서 정확히 Start TC로 바뀝니다. 재생이 로케이터를 한 번 지나가기 전에는 상태 줄에 `~ start (play past the SMPTE locator)`가 보입니다.
+- **Display 항목.** 플로팅 창에 띄울 줄을 고릅니다: Bars(`5.1.1`), Tempo(`120 BPM  4/4`), FPS, Audio, Status. 모두 끄면 타임코드만 남습니다.
+- **Display Scale.** S / M / L / XL 메뉴 대신 50–400 %입니다. 패널 숫자를 끌거나 창 모서리를 끌어 바꾸고, 손을 떼면 창이 그 크기의 배치에 맞춰집니다(Undo 한 단계).
+- 디바이스 패널을 다시 배치했습니다. 버튼 설명은 Live의 Info View에 나옵니다.
+
+### 수정
+- 템포 오토메이션 구간을 재생하며 잰 시간이 약 16 ms 늦던 문제. 이동, 번인 Start TC, Stamp WAV에 영향이 있었습니다.
+- 템포 오토메이션 구간에서 이동하는 중에 재생을 누르면 시작 위치가 늦던 문제.
+- Start가 저장된 Set을 영상 없이 연 뒤 영상을 넣으면, 첫 번인 타임코드가 적용되지 않던 문제.
+- FPS 메뉴를 번인과 같은 레이트로 바꿔도 손으로 맞춘 Start를 덮어쓰지 않습니다. 번인 값은 FPS를 `Auto (video)`로 돌릴 때 적용됩니다.
+- 같은 영상이 두 트랙에 있으면 가장 앞의 클립을 기준으로 합니다.
+- VideoAuto를 끄면 찾았던 영상 정보를 지웁니다.
+- 템포 오토메이션 구간에서 Set 끝 너머로 이동하면 Set을 필요한 만큼만 늘립니다. 이전에는 Set 길이가 두 배가 될 수 있었습니다.
+- 템포 오토메이션 구간에서 재생 중 이동할 때 Live가 멈추지 않으면, 소리가 나는 동안 재생 헤드를 여러 번 옮기지 않고 `could not stop playback for the seek`를 보여 줍니다.
+- 디바이스를 다시 불러오면 진행 중이던 이동을 버립니다. 이전에는 표시가 멈추거나, 나중에 Enter만 눌러도 재생이 시작될 수 있었습니다.
+
+### 1.0에서 업데이트할 때
+- Offset 값은 Start로 그대로 이어집니다. `SMPTE` 로케이터가 없으면 동작도 1.0과 같습니다.
+- Scale 설정은 100 %(1.0의 M)로 돌아갑니다.
+- 플로팅 창의 줄 순서가 Audio → FPS에서 FPS → Audio로 바뀌었습니다.
+- Set에 있는 디바이스를 지우고 다시 올려 주세요. 패널 아래쪽에 `SMPTE Display 1.1`이 보이면 새 버전입니다.
+
+### 검증
+- 단위 테스트 221개 통과.
+- 실제 Ableton Live 12.4.6 · Max 9.1.5(macOS 15.7, Apple Silicon)에서 자동 통합 테스트: Max Console 에러 0건, 정지 위치 비교 1개(아래 알려진 한계)를 뺀 자동 판정 항목 모두 통과. 실제 키 입력이나 모니터 분리처럼 자동화할 수 없는 9개는 1.0과 같은 수동 확인 항목입니다.
+- 로케이터를 마우스로 끌어 옮기기와 Live의 Undo, 창 모서리를 아주 크게 끌고 멈췄다 놓기, 패널의 Scale 숫자를 400 %까지 끌기는 실제 Live에서 마우스로 확인했습니다.
+
+### 알려진 한계
+- 프레임이 끝나기 전 약 15 ms 안에서 정지하면 Live 영상 창이 1프레임 앞을 보여 줄 때가 있습니다(1.0과 같음).
+
+### What's new in 1.1 (English)
+- **Start TC on any bar.** The Arrangement locator whose name starts with `SMPTE` is where the Start TC (the Offset in 1.0) sits. Stop, click a bar and press **Mark** to create `SMPTE 01:00:00:00` there. Drag the locator and the timecode follows; Live's Undo works. Without such a locator the song start is the reference, as in 1.0. A name the device gave follows Start; a name you typed is kept. The device never deletes or moves a locator.
+- Burned-in timecode: with a locator, the burn-in label at the locator becomes the Start TC and follows the locator while the burn-in value is in use. With tempo automation the switch to Start TC is exact once playback has passed the locator.
+- **Display lines.** Pick what the floating window shows: Bars, Tempo, FPS, Audio, Status. All off leaves the timecode alone.
+- **Display Scale.** 50–400 % instead of S / M / L / XL. Drag the panel number or the window corner; the window settles on the matching layout when you let go (one Undo step).
+- Redesigned device panel; control hints are in Live's Info View.
+- Fixed: tempo-ramp timing measured during playback ran about 16 ms late; a late start after pressing play during a tempo-ramp locate; the first burn-in not applied when a Set saved with a Start TC was opened without video; the FPS menu overwriting a hand-set Start; two copies of a movie on two tracks (the earliest clip now wins); VideoAuto off keeping video state; locates past the Set end doubling the Set under tempo automation; repeated playhead moves when Live would not stop; a stuck display after a device reload.
+- Tested in Ableton Live 12.4.6 with Max 9.1.5 (macOS 15.7, Apple Silicon): 221 unit tests pass; every automated check in Live passes except one stop-position comparison (the known limitation), with no Max Console errors. Dragging the locator with the mouse, Live's Undo, dragging the window corner very large and holding it still, and dragging Scale to 400 % were checked by hand in Live.
+- Updating from 1.0: the Offset carries over as Start; Scale resets to 100 % (the old M); the window shows FPS above Audio. Delete and re-add the device in your Set; the panel shows `SMPTE Display 1.1`.
+
 ## 1.0 — 2026-11-01
 
 정식 버전입니다. Beta 0.4 이후 사용자 파일의 안전과 동작 오류를 중심으로 코드를 점검하고 고쳤습니다.

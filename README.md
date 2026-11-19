@@ -4,7 +4,7 @@
 
 **Ableton Live 12에서 사용하는 Max for Live 디바이스** — Arrangement View에서 SMPTE 타임코드를 띄워 보고, 타임코드를 입력해 바로 이동합니다.
 
-[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+[![Version](https://img.shields.io/badge/version-1.1-blue)](https://github.com/emile-lab/SMPTE-Display/releases/latest)
 [![Requires Ableton Live 12 + Max for Live](https://img.shields.io/badge/requires-Ableton%20Live%2012%20%2B%20Max%20for%20Live-black)](https://www.ableton.com/live/max-for-live/)
 [![macOS](https://img.shields.io/badge/macOS-11%2B-lightgrey)](#요구-사항)
 [![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)](LICENSE)
@@ -13,14 +13,14 @@
 
 <img src="docs/images/screenshot.png" alt="SMPTE Display 플로팅 창과 디바이스 패널" width="760">
 
-### [⬇️ 1.0 다운로드](https://github.com/emile-lab/SMPTE-Display/releases/latest)
+### [⬇️ 1.1 다운로드](https://github.com/emile-lab/SMPTE-Display/releases/latest)
 
 <sub>내려받거나 사용하면 [라이선스(LICENSE)](LICENSE)에 동의하는 것으로 봅니다.</sub>
 
 </div>
 
 > [!NOTE]
-> 문제나 의견이 있으면 [Issues](https://github.com/emile-lab/SMPTE-Display/issues/new/choose)에 남겨 주세요. 디바이스 패널 아래쪽에 버전(`SMPTE Display 1.0`)이 표시됩니다.
+> 문제나 의견이 있으면 [Issues](https://github.com/emile-lab/SMPTE-Display/issues/new/choose)에 남겨 주세요. 디바이스 패널 아래쪽에 버전(`SMPTE Display 1.1`)이 표시됩니다.
 
 ---
 
@@ -28,10 +28,11 @@
 
 | 기능 | 설명 |
 |---|---|
-| 🕒 **떠 있는 타임코드 창** | Live 위에 작은 창으로 현재 위치를 `HH:MM:SS:FF`로 보여 줍니다. 크기는 S / M / L / XL 중에서 고릅니다. |
+| 🕒 **떠 있는 타임코드 창** | Live 위에 작은 창으로 현재 위치를 `HH:MM:SS:FF`로 보여 줍니다. 마디·템포·FPS·오디오·상태 중 띄울 줄을 고르고, 창 모서리를 끌어 크기(50–400 %)를 바꿉니다. |
+| 📍 **원하는 마디에 Start TC** | 이름이 `SMPTE`로 시작하는 로케이터 자리가 Start TC(예: `01:00:00:00`)가 됩니다. 마디를 클릭하고 **Mark**를 누르면 만들어지고, 로케이터를 끌어 옮기면 따라갑니다. 앞 마디는 프리롤(`00:59:52:00` …)로 흐릅니다. |
 | ⌨️ **타임코드로 이동** | 창을 클릭하고 `01:23:45:12`를 입력한 뒤 **Enter**를 누르면 그 위치로 이동합니다. **Space**를 누르면 이동한 다음 재생합니다. |
 | 🎬 **영상 FPS 자동 감지** | Arrangement에 있는 영상 클립(MOV / MP4 / M4V)의 프레임레이트를 자동으로 사용합니다. |
-| 🔎 **번인 타임코드(BITC) 인식** | 영상 화면에 찍힌 타임코드를 읽어 Offset과 FPS를 자동으로 맞추고, 재생 중에는 `sync OK`로 싱크 상태를 알려 줍니다. 30 fps 파일 안에 24 fps 타임코드가 찍힌 영상처럼 **파일과 화면의 프레임레이트가 달라도** 화면의 타임코드를 따라갑니다. *(macOS)* |
+| 🔎 **번인 타임코드(BITC) 인식** | 영상 화면에 찍힌 타임코드를 읽어 Start TC와 FPS를 자동으로 맞추고, 재생 중에는 `sync OK`로 싱크 상태를 알려 줍니다. 30 fps 파일 안에 24 fps 타임코드가 찍힌 영상처럼 **파일과 화면의 프레임레이트가 달라도** 화면의 타임코드를 따라갑니다. *(macOS)* |
 | 📤 **Export 타임코드** | Live에서 Export한 WAV에 표준 BWF 타임스탬프(EBU Tech 3285)를 기록합니다. 원래 타임스탬프 위치로 배치(Spot)하는 기능이 있는 편집 프로그램과 DAW에서 영상과 같은 타임코드에 놓을 수 있습니다. Live Set은 건드리지 않습니다. |
 | 🎯 **프레임 정확도** | 정지하거나 클릭한 위치가 프레임 경계에 걸려도 Live 영상 창과 같은 프레임을 표시합니다. 재생 헤드는 건드리지 않으므로 클립 선택이 그대로 유지됩니다. |
 | 📈 **템포 오토메이션 대응** | 템포가 바뀌는 구간에서도 실제 경과 시간을 기준으로 정확하게 표시하고 이동합니다. |
@@ -50,13 +51,13 @@
 ## 설치 (3단계)
 
 **1. 다운로드 후 압축을 풉니다.**
-[Releases](https://github.com/emile-lab/SMPTE-Display/releases/latest)에서 `SMPTE_Display_1.0.zip`을 받아 압축을 풉니다.
+[Releases](https://github.com/emile-lab/SMPTE-Display/releases/latest)에서 `SMPTE_Display_1.1.zip`을 받아 압축을 풉니다.
 
 **2. macOS 보안 격리를 해제합니다.** *(번인 타임코드 기능에 필요)*
 인터넷에서 받은 파일은 macOS가 격리합니다. 이 상태에서는 영상 타임코드 인식 도구(`bitc_reader`)가 실행되지 않습니다. **터미널**을 열고 아래 명령을 입력하세요. 경로는 압축을 푼 위치에 맞게 바꿉니다.
 
 ```bash
-xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
+xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.1
 ```
 
 **3. User Library에 복사하고 트랙에 올립니다.**
@@ -96,13 +97,27 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 | **Space** (입력 중이 아닐 때) | 재생 / 정지 |
 | **Esc** | 입력을 취소합니다. 10초 동안 입력이 없을 때도 취소됩니다. |
 
+### Start TC를 원하는 마디에 두기
+
+영화 작업처럼 `01:00:00:00`을 5마디에 두고 앞 마디를 프리롤로 쓰는 방법입니다.
+
+1. **FPS**와 **Start**(예: `01:00:00:00`)를 맞춥니다.
+2. 재생을 멈추고 Arrangement에서 5마디를 클릭한 뒤 **Mark**를 누릅니다. 그 자리에 `SMPTE 01:00:00:00` 로케이터가 생깁니다.
+3. 이제 5마디가 `01:00:00:00`이고, 1마디는 그만큼 앞(120 BPM 4/4라면 `00:59:52:00`)입니다. 로케이터를 끌어 옮기면 기준도 따라가고, Undo로 되돌릴 수 있습니다.
+
+- 이름이 `SMPTE`로 시작하는 로케이터를 직접 만들어도 됩니다(예: `SMPTE reel 2`). 여러 개면 가장 앞의 것을 씁니다.
+- Start를 바꾸면 디바이스가 붙인 이름(`SMPTE 01:00:00:00`)도 따라 바뀝니다. 직접 붙인 이름은 그대로 둡니다. 디바이스는 로케이터를 지우거나 옮기지 않습니다.
+- 로케이터가 없으면 노래 시작이 기준입니다(1.0의 Offset과 같습니다).
+- 템포 오토메이션이 있는 곡에서는 재생이 로케이터를 한 번 지나가야 로케이터 시각이 정확해집니다. 그 전에는 상태 줄에 `~ start (play past the SMPTE locator)`가 보입니다.
+
 ### 디바이스 설정
 
 | 설정 | 설명 |
 |---|---|
 | **FPS** | 타임코드 프레임레이트. `Auto (video)`는 영상 화면의 번인 타임코드, 없으면 영상 파일을 따릅니다. |
-| **Offset** | 타임라인 0 지점의 타임코드 (예: `01:00:00:00`). 번인 타임코드가 있으면 자동으로 설정됩니다. |
-| **Float** / **Scale** | 플로팅 창 켜기·끄기 / 크기 (S · M · L · XL) |
+| **Start** / **Mark** | Start TC. `SMPTE` 로케이터 자리(없으면 노래 시작)의 타임코드입니다(예: `01:00:00:00`). **Mark**는 클릭한 마디에 그 로케이터를 만듭니다. 번인 타임코드가 있으면 자동으로 설정됩니다. |
+| **Float** / **Scale** | 플로팅 창 켜기·끄기 / 크기 50–400 %. 숫자를 위아래로 끌거나 창 모서리를 끌어 바꿉니다. |
+| **Show** | 플로팅 창에 띄울 줄: **Bars**(마디), **Tempo**(템포·박자), **FPS**, **Audio**, **Status**. 모두 끄면 타임코드만 남습니다. |
 | **Clock** | 시간 계산 방식. 보통은 `Auto`로 두면 됩니다. |
 | **Bit** | 화면에 표시할 비트 심도 라벨입니다. Live에서 자동으로 읽을 수 없어 직접 지정합니다. |
 | **Choose…** / **Rescan** | 영상 파일을 직접 고르거나, Arrangement의 영상을 다시 찾습니다. |
@@ -110,11 +125,11 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 
 ## 영상 번인 타임코드 (BITC) 자동 맞춤 — macOS
 
-영상 화면에 타임코드가 찍혀 있으면 디바이스가 프레임 11개를 읽어 **Offset을 자동으로 맞춥니다.** 화면의 타임코드가 파일과 다른 프레임레이트로 흐르는 경우(예: 24 fps로 편집한 영상을 30 fps로 내보내 5프레임마다 1프레임이 반복되는 파일)에도 화면의 타임코드를 기준으로 삼습니다. 이때 FPS `Auto`는 화면의 프레임레이트를 쓰고, 영상 클립 구간에서는 **반복되는 프레임까지 화면과 똑같이** 표시합니다. 타임코드를 입력해 이동하면 그 타임코드가 처음 보이는 프레임으로 갑니다.
+영상 화면에 타임코드가 찍혀 있으면 디바이스가 프레임 11개를 읽어 **Start TC를 자동으로 맞춥니다.** `SMPTE` 로케이터가 있으면 그 자리의 번인 타임코드가 Start TC가 됩니다. 화면의 타임코드가 파일과 다른 프레임레이트로 흐르는 경우(예: 24 fps로 편집한 영상을 30 fps로 내보내 5프레임마다 1프레임이 반복되는 파일)에도 화면의 타임코드를 기준으로 삼습니다. 이때 FPS `Auto`는 화면의 프레임레이트를 쓰고, 영상 클립 구간에서는 **반복되는 프레임까지 화면과 똑같이** 표시합니다. 타임코드를 입력해 이동하면 그 타임코드가 처음 보이는 프레임으로 갑니다.
 
 | 정보 줄 표시 | 의미 |
 |---|---|
-| `BITC 00:59:56:00 ok` | 인식에 성공해 Offset을 적용했습니다. |
+| `BITC 00:59:56:00 ok` | 인식에 성공해 Start TC를 적용했습니다. |
 | `auto 24 fps (file 30)` | 화면 타임코드는 24 fps, 영상 파일은 30 fps입니다. 화면을 따릅니다. |
 | `BITC mismatch 8/11` | 읽은 값들이 서로 맞지 않아 적용하지 않았습니다. |
 | `BITC 24 fps != 30 fps` | FPS를 직접 골랐는데 화면의 타임코드와 다릅니다. FPS를 `Auto (video)`로 바꾸면 바로 화면을 따릅니다. |
@@ -122,7 +137,7 @@ xattr -dr com.apple.quarantine ~/Downloads/SMPTE_Display_1.0
 | `sync OK` / `sync +2 fr` | 재생 중 싱크 상태 (약 5초마다 확인) |
 | `clip off frame grid` | 영상 클립이 프레임 경계 사이에 놓여 있습니다. 스냅을 켜고 클립을 격자에 맞춰 주세요. |
 
-저장한 Set을 다시 열 때는 **저장된 Offset을 그대로 둡니다.** 손으로 맞춘 값을 지키기 위해서입니다. 번인 타임코드 값으로 바꾸려면 **Rescan**을 누르세요.
+저장한 Set을 다시 열 때는 **저장된 Start TC를 그대로 둡니다.** 손으로 맞춘 값을 지키기 위해서입니다. 번인 타임코드 값으로 바꾸려면 **Rescan**을 누르세요.
 
 ## Export 타임코드 (BWF 타임스탬프)
 
@@ -133,7 +148,7 @@ Live가 Export한 WAV에는 타임코드 정보가 없어서, 편집 프로그�
 3. 상태 줄에 `TC 01:04:23:10 stamped: 5 WAVs (video clip)`처럼 결과가 나옵니다. 기록한 파일 이름은 Max Console에 남습니다.
 
 - **Live Set은 바꾸지 않습니다.** 클립, 오토메이션, 트랙 싱크가 그대로이고, 오디오 데이터도 한 바이트도 바뀌지 않습니다. 파일에 타임코드 정보만 추가됩니다.
-- 타임스탬프는 **샘플 단위**입니다. 해당 타임코드 프레임 안의 첫 샘플을 기록합니다. 번인 타임코드로 Offset을 맞췄다면, 영상 클립이 프레임 격자 사이에 놓여 있어도 영상의 실제 위치를 기준으로 계산합니다.
+- 타임스탬프는 **샘플 단위**입니다. 해당 타임코드 프레임 안의 첫 샘플을 기록합니다. 번인 타임코드로 Start TC를 맞췄다면, 영상 클립이 프레임 격자 사이에 놓여 있어도 영상의 실제 위치를 기준으로 계산합니다.
 - **Render Start 찾기:** Live는 Export 범위를 알려 주지 않습니다.
   - 시간 선택으로 Export하면 시작 마커가 선택의 시작으로 옮겨지므로, **시작 마커**를 Render Start로 씁니다.
   - 파일 길이가 Set 전체 길이와 같으면 Set 전체를 Export한 것이므로 **0**에서 시작합니다.
@@ -199,9 +214,9 @@ Live가 Export한 WAV에는 타임코드 정보가 없어서, 편집 프로그�
 </details>
 
 <details>
-<summary><b>상태 줄에 <code>offset invalid</code>가 떠요</b></summary>
+<summary><b>상태 줄에 <code>start TC invalid</code>가 떠요</b></summary>
 
-Offset의 프레임 값이 선택한 FPS의 범위를 넘었습니다(예: 24 fps에서 프레임 30). 이 상태에서는 타임코드 입력도 거부됩니다. Offset의 마지막 칸(프레임)을 고치세요.
+Start의 프레임 값이 선택한 FPS의 범위를 넘었습니다(예: 24 fps에서 프레임 30). 이 상태에서는 타임코드 입력과 Mark도 거부됩니다. Start의 마지막 칸(프레임)을 고치세요.
 </details>
 
 <details>
